@@ -1,7 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require("cors");
 
 const app = express();
+// enable cors
+app.use(cors());
+app.options("*", cors());
+
 const PORT = 8081;
 const DB_URI = 'mongodb://localhost:27017/test';
 // const DB_URI = "mongodb+srv://tghataliya:opfVe8sdf9LzxkUM@cluster0.vwzc2vc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
