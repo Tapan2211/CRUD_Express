@@ -2,10 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require("cors");
 
+const createNewUser = require('./routes/user.route');
+
 const app = express();
+//This line for static image or url to get access on browser or else
+app.use(express.static('uploads/'));
 // enable cors
 app.use(cors());
 app.options("*", cors());
+
 
 const PORT = 8081;
 const DB_URI = 'mongodb://localhost:27017/test';
@@ -14,8 +19,6 @@ const DB_URI = 'mongodb://localhost:27017/test';
 mongoose.connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Connected to DB", DB_URI))
     .catch((err) => console.error("Failed to connect to DB", err));
-
-const createNewUser  = require('./routes/user.route');
 
 app.use(express.json());
 app.use('/user', createNewUser);

@@ -1,8 +1,7 @@
 const UserModel = require('../models/user.models');
 
-
 const createUserDoc = async (userBody) => {
-    const userDoc = UserModel(userBody);
+    const userDoc = new UserModel(userBody);
     const result = await userDoc.save();
     return result;
 }

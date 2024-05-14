@@ -4,7 +4,8 @@ const {
     createUserDoc,
     findAllUser,
     userUpdateById,
-    userDeleteById } = require('../services/user.service');
+    userDeleteById
+ } = require('../services/user.service');
 
 //Old way without use service class method
 // const createNewUser = async (req, res) => {
@@ -24,12 +25,16 @@ const createNewUser = async (req, res) => {
     try {
         console.log("BODY:-", req.body)
         const data = await createUserDoc(req.body);
-       
+        const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.body.image}`;
+        data.image = imageUrl; 
+        console.log("imageUrl", imageUrl)
+        console.log("CREATEUSER", data)
         return res.status(200).json({ message: 'Successfully create new user', data });
     } catch (error) {
         console.log("ERROR:-", error)
         return res.status(500).json(error);
     }
+
 }
 
 const getAllUser = async (req, res) => {
