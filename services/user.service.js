@@ -7,8 +7,27 @@ const createUserDoc = async (userBody) => {
 }
 
 const findAllUser = async () => {
-    const result = await UserModel.find({}).sort({ createdAt: -1 });
-    return result;
+    
+    // const users = await UserModel.find({}).sort({ createdAt: -1 });
+    // const usersWithImageUrl = users.map(user => {
+    //     // const imageUrl = `${process.env.BASE_URL}/uploads/${user.image}`;
+    //     const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.body.image}`;
+    //     // console.log("NEW_URL",imageUrl)
+    //     return { ...user.toObject(), imageUrl };
+    // });
+    // return usersWithImageUrl;
+
+    try {
+        const users = await UserModel.find({}).sort({ createdAt: -1 });
+        const usersWithImageUrl = users.map(user => {
+            const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${user.image}`;
+            return { ...user.toObject(), imageUrl };
+        });
+
+        return usersWithImageUrl;
+    } catch (error) {
+        throw error;
+    }
 }
 
 const userUpdateById = async (id, updateData) => {

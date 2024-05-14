@@ -6,7 +6,7 @@ const createNewUser = require('./routes/user.route');
 
 const app = express();
 //This line for static image or url to get access on browser or else
-app.use(express.static('uploads/'));
+app.use("/uploads",express.static("uploads"));
 // enable cors
 app.use(cors());
 app.options("*", cors());
