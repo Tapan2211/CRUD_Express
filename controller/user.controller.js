@@ -23,7 +23,6 @@ const {
 
 const createNewUser = async (req, res) => {
     try {
-        console.log("BODY:-", req.body)
         const data = await createUserDoc(req.body);
         const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.body.image}`;
         data.image = imageUrl; 
@@ -38,11 +37,16 @@ const createNewUser = async (req, res) => {
 }
 
 const getAllUser = async (req, res) => {
+
     try {
-        const data = await findAllUser()
-        return res.status(200).json(data);
+        const users = await findAllUser(req.baseUrl); // Pass base URL or complete image URL here
+        const usersWithImageUrl = users.map(user => {
+            const image = `${req.protocol}://${req.get('host')}/uploads/${user.image}`;
+            return { ...user.toObject(), image};
+        });
+        return res.status(200).json(usersWithImageUrl);
     } catch (error) {
-        res.status(500).json({ message: 'Could not fetch user list', error })
+        return res.status(500).json({ message: 'Could not fetch user list', error });
     }
 }
 
